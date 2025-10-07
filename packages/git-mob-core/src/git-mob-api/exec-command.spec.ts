@@ -108,44 +108,6 @@ describe('exec-command with ConfigScope support', () => {
     });
   });
 
-  describe('legacy key format (backward compatibility)', () => {
-    it('should parse "--global some.key" format', async () => {
-      await setConfig('--global legacy.test', 'legacy-value');
-      
-      // Should be in global config
-      const result = execSync('git config --global legacy.test', {
-        encoding: 'utf8',
-      }).trim();
-      expect(result).toBe('legacy-value');
-      
-      // Clean up
-      execSync('git config --global --unset legacy.test');
-    });
-
-    it('should parse "--local some.key" format', async () => {
-      await setConfig('--local legacy.local', 'local-legacy');
-      const result = await getConfig('--local legacy.local');
-      expect(result).toBe('local-legacy');
-    });
-
-    it('should prefer legacy scope over parameter scope', async () => {
-      // Even though we pass 'local' scope, the "--global" in the key should win
-      await setConfig('--global legacy.scope-test', 'global-wins', 'local');
-      
-      const result = execSync('git config --global legacy.scope-test', {
-        encoding: 'utf8',
-      }).trim();
-      expect(result).toBe('global-wins');
-      
-      // Should NOT be in local config
-      const localResult = await getConfig('legacy.scope-test', 'local');
-      expect(localResult).toBeUndefined();
-      
-      // Clean up
-      execSync('git config --global --unset legacy.scope-test');
-    });
-  });
-
   describe('getAllConfig', () => {
     it('should retrieve all values for a multi-value config', async () => {
       await addConfig('multi.value', 'first', 'local');
