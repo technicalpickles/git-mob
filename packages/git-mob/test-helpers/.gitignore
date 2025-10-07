@@ -1,0 +1,7 @@
+# Test artifacts - these files get modified during test runs
+# The test suite sets HOME to this directory, causing git to write here
+.gitconfig
+.gitmessage
+.gitglobalmessage
+.git-coauthors
+
