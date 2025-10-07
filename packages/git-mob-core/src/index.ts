@@ -144,3 +144,4 @@ export {
 export { getConfig, updateConfig } from './config-manager.js';
 export { Author } from './git-mob-api/author.js';
 export { messageFormatter } from './git-mob-api/git-message/message-formatter.js';
+export type { ConfigScope } from './git-mob-api/exec-command.js';
