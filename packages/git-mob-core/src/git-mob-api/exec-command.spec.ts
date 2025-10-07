@@ -7,25 +7,10 @@ import {
   removeConfigSection,
   type ConfigScope,
 } from './exec-command.js';
+import { createTempGitRepo, cleanupTempDir } from '../test-helpers/git-test-helpers.js';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as os from 'os';
-
-// Test helper functions
-function createTempGitRepo(): string {
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'git-mob-test-'));
-  execSync('git init', { cwd: tempDir });
-  execSync('git config user.name "Test User"', { cwd: tempDir });
-  execSync('git config user.email "test@example.com"', { cwd: tempDir });
-  return tempDir;
-}
-
-function cleanupTempDir(dir: string): void {
-  if (fs.existsSync(dir)) {
-    fs.rmSync(dir, { recursive: true, force: true });
-  }
-}
 
 describe('exec-command with ConfigScope support', () => {
   let tempDir: string;
