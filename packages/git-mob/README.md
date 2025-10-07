@@ -180,6 +180,36 @@ Removing the above snippet and running `git commit` will uninstall the pre-commi
 
 Git Mob config is a section in the Git config.
 
+### Custom Config File
+
+By default, git-mob stores its configuration in your global git config (`~/.gitconfig`). To keep git-mob configuration separate, set the `GITMOB_CONFIG_FILE` environment variable:
+
+```bash
+export GITMOB_CONFIG_FILE=~/.config/git-mob/config
+```
+
+All git-mob operations will use this file instead of `~/.gitconfig`. This is useful for:
+
+- **Keeping your global git config clean**: Separate git-mob data from your personal git configuration
+- **Per-project configurations**: Use different git-mob setups for different projects by setting the variable per-project
+- **Testing and development**: Experiment without affecting your global config
+- **Organizational requirements**: Store git-mob config in a specific location required by your team
+
+The custom config file uses standard git config format and will be created automatically by git when first needed.
+
+**What gets stored in the custom file:**
+
+When `GITMOB_CONFIG_FILE` is set, the following configuration is stored in the custom file:
+- Selected co-authors (`git-mob.co-author`)
+- Git-mob settings like `git-mob-config.github-fetch`
+- Commit template path (`commit.template`)
+- Primary author when using the override flag: `git mob -o` (`user.name`, `user.email`)
+
+**What stays local:**
+
+The following still uses repository-local config (`.git/config`):
+- Local template setting (`git-mob-config.use-local-template`)
+
 ### Use local commit template
 
 If you are using a local commit template and want to remove the warning message then set this option to `true`. Only reads from the local git config.

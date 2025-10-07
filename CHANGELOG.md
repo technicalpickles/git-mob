@@ -2,6 +2,38 @@
 
 Follows [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### git-mob-core
+
+#### Added
+
+- Support for custom config file via `GITMOB_CONFIG_FILE` environment variable
+- Semantic scope system (`'auto'`, `'local'`, `'global'`, `'mob'`) for git config operations
+- `gitConfigFile` configuration option in config-manager (accessible via `updateConfig('gitConfigFile', path)`)
+- New `ConfigScope` type for type-safe scope handling
+- Helper functions `addConfig()` and `removeConfigSection()` in exec-command API
+
+#### Changed
+
+- All git-mob config operations now respect `GITMOB_CONFIG_FILE` when set
+- Updated exec-command API (`getConfig`, `getAllConfig`, `setConfig`) to accept optional scope parameter
+- High-level config functions in `git-mob-config.ts` and `git-config.ts` now use semantic scopes
+- Default scope for git-mob operations is `'mob'` (uses custom file when set, otherwise `--global`)
+
+#### Removed
+
+- Legacy format support for scope flags embedded in keys (e.g., `getConfig('--global key')`)
+- All config functions now require explicit scope parameters or use sensible defaults
+- Backward compatibility parsing logic from exec-command
+
+### git-mob
+
+#### Changed
+
+- Inherited custom config file support from git-mob-core
+- All CLI commands (`git mob`, `git solo`, `git mob -o`) now respect `GITMOB_CONFIG_FILE`
+
 ## git-mob-core 0.10.1
 
 ### Fixed
