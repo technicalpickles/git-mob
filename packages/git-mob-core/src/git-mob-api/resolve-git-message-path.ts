@@ -4,9 +4,9 @@ import { topLevelDirectory } from './git-rev-parse.js';
 import { getConfig, setConfig } from './exec-command.js';
 
 async function setCommitTemplate() {
-  const hasTemplate = await getConfig('commit.template');
+  const hasTemplate = await getConfig('commit.template', 'auto');
   if (!hasTemplate) {
-    await setConfig('--global commit.template', gitMessagePath());
+    await setConfig('commit.template', gitMessagePath(), 'mob');
   }
 }
 

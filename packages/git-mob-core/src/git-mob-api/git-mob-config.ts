@@ -1,27 +1,31 @@
-import { getConfig, getAllConfig, execCommand } from './exec-command.js';
+import {
+  getConfig,
+  getAllConfig,
+  addConfig,
+  removeConfigSection,
+} from './exec-command.js';
 
 export async function localTemplate() {
-  const localTemplate = await getConfig('--local git-mob-config.use-local-template');
+  const localTemplate = await getConfig(
+    'git-mob-config.use-local-template',
+    'local'
+  );
   return localTemplate === 'true';
 }
 
 export async function fetchFromGitHub() {
-  const githubFetch = await getConfig('--global git-mob-config.github-fetch');
+  const githubFetch = await getConfig('git-mob-config.github-fetch', 'mob');
   return githubFetch === 'true';
 }
 
 export async function getSetCoAuthors() {
-  return getAllConfig('--global git-mob.co-author');
+  return getAllConfig('git-mob.co-author', 'mob');
 }
 
 export async function addCoAuthor(coAuthor: string) {
-  const addAuthorQuery = `git config --add --global git-mob.co-author "${coAuthor}"`;
-
-  return execCommand(addAuthorQuery);
+  return addConfig('git-mob.co-author', coAuthor, 'mob');
 }
 
 export async function removeGitMobSection() {
-  try {
-    return await execCommand('git config --global --remove-section git-mob');
-  } catch {}
+  return removeConfigSection('git-mob', 'mob');
 }
